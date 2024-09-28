@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -71,4 +70,93 @@
 
 .manage-button {
   @apply bg-manage; /* Color for manage button */
+}
+
+/* Mobile Responsive Styles */
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+  /* Adjust Navbar */
+  .dark-background {
+    @apply flex flex-col items-center; /* Stack navbar items vertically */
+  }
+
+  .button {
+    @apply text-base w-full p-3; /* Smaller button styles for mobile */
+  }
+
+  .todo-item {
+    @apply p-3; /* Adjust padding for smaller screens */
+  }
+
+  .timer {
+    @apply text-lg p-3; /* Smaller timer for mobile */
+  }
+
+  .timer-controls .button {
+    @apply w-20 p-2; /* Smaller control buttons */
+  }
+
+  /* Adjust form input fields */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    @apply text-sm p-2; /* Smaller input fields */
+  }
+
+  /* Scroll Box Styles for Mobile */
+  .scroll-box {
+    @apply max-h-72; /* Reduce max height for mobile */
+  }
+
+  /* Heading Styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-lg; /* Smaller headings for mobile */
+  }
+
+  /* Paragraph Styles */
+  p {
+    @apply text-sm; /* Smaller paragraph text */
+  }
+}
+
+/* Very Small Devices */
+@media (max-width: 480px) {
+  /* Hero Section */
+  .hero {
+    @apply flex-col p-4; /* Stack hero content vertically */
+  }
+
+  /* Smaller Font Sizes */
+  h1 {
+    @apply text-xl; /* Adjust title size */
+  }
+
+  .button {
+    @apply text-sm p-2; /* Smaller buttons */
+  }
+
+  /* Input Styles */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    @apply text-sm p-2; /* Smaller input fields */
+  }
+
+  /* Scroll Box Styles */
+  .scroll-box {
+    @apply max-h-60 p-2; /* Reduce max height and padding */
+  }
+
+  /* Todo Item */
+  .todo-item {
+    @apply p-2; /* Adjust padding */
+  }
 }
