@@ -1,4 +1,5 @@
-**Project Title and Description**\
+**Project Title and Description**
+
 Procrastinot is a web application designed to help users manage their tasks and projects efficiently. It offers features like creating to-do lists, tracking the time spent on tasks, and moving projects between different statuses. The app aims to make time and task management fun and easy with a user-friendly interface and design.
 
 **Table of Contents**
