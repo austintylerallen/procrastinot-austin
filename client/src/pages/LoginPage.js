@@ -1,22 +1,28 @@
+// src/pages/LoginPage.js
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import { loginStart, loginSuccess, loginFailure } from '../redux/slices/authSlice';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance'; // Update this line
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.auth);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(loginStart());
 
     try {
-      const response = await axios.post('/auth/login', { email, password });
+        const response = await axiosInstance.post('/auth/login', { email, password });
+
       localStorage.setItem('token', response.data.token);
       dispatch(loginSuccess(response.data.token));
+      navigate('/projects/todo'); // Redirect to To-Do page after successful login
     } catch (err) {
       dispatch(loginFailure(err.response.data.message));
     }
@@ -52,6 +58,15 @@ const LoginPage = () => {
           </button>
         </form>
         {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
+        <div className="mt-4 text-center">
+          <p>Don't have an account?</p>
+          <button
+            onClick={() => navigate('/register')} // Redirect to register page
+            className="text-todo hover:text-todo-dark underline"
+          >
+            Register
+          </button>
+        </div>
       </div>
     </div>
   );

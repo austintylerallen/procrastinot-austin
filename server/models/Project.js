@@ -10,21 +10,17 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  time_applied: {
-    type: Number,
-    default: 0,
+  status: {
+    type: String,
+    enum: ['To-Do', 'Working', 'Completed'], // Ensure these are correct
+    default: 'To-Do',
   },
   auth_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    required: false, // Not required for seeding
   },
-  status: {
-    type: String,
-    enum: ['todo', 'working', 'completed'],
-    default: 'todo',
-  },
-  date_created: {
+  createdAt: {
     type: Date,
     default: Date.now,
   },

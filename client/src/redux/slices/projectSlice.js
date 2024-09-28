@@ -1,47 +1,88 @@
-// client/src/redux/slices/projectSlice.js
-
 import { createSlice } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 
+// Initial state for projects
 const initialState = {
-  todo: [],
-  working: [],
-  completed: [],
+  projects: [],
+  loading: false,
+  error: null,
 };
 
+// Project slice
 const projectSlice = createSlice({
   name: 'projects',
   initialState,
   reducers: {
-    setTodos: (state, action) => {
-      state.todo = action.payload;
+    // Reducers for fetching projects
+    getProjectsStart(state) {
+      state.loading = true;
+      state.error = null;
     },
-    setWorking: (state, action) => {
-      state.working = action.payload;
+    getProjectsSuccess(state, action) {
+      state.loading = false;
+      state.projects = action.payload;
     },
-    setCompleted: (state, action) => {
-      state.completed = action.payload;
+    getProjectsFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
-    addTodo: (state, action) => {
-      state.todo.push(action.payload);
+
+    // Reducer for adding a project
+    addProjectSuccess(state, action) {
+      state.projects.push(action.payload); // Add new project to the state
+      state.loading = false;
+      state.error = null;
     },
-    moveToWorking: (state, action) => {
-      state.working.push(action.payload);
-      state.todo = state.todo.filter(todo => todo.id !== action.payload.id);
+    addProjectFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
-    moveToCompleted: (state, action) => {
-      state.completed.push(action.payload);
-      state.working = state.working.filter(work => work.id !== action.payload.id);
+
+    // Reducers for updating project status
+    updateProjectStatusSuccess(state, action) {
+      const { id, status } = action.payload;
+      const projectIndex = state.projects.findIndex((project) => project._id === id);
+      if (projectIndex !== -1) {
+        state.projects[projectIndex].status = status;
+      }
+    },
+    updateProjectStatusFailure(state, action) {
+      state.error = action.payload;
     },
   },
 });
 
+// Memoized Selectors
+const selectProjectsState = (state) => state.projects;
+
+export const selectAllProjects = createSelector(
+  [selectProjectsState],
+  (projectsState) => projectsState.projects
+);
+
+export const selectTodoProjects = createSelector(
+  [selectAllProjects],
+  (projects) => projects.filter((project) => project.status === 'To-Do')
+);
+
+export const selectWorkingProjects = createSelector(
+  [selectAllProjects],
+  (projects) => projects.filter((project) => project.status === 'Working')
+);
+
+export const selectCompletedProjects = createSelector(
+  [selectAllProjects],
+  (projects) => projects.filter((project) => project.status === 'Completed')
+);
+
 export const {
-  setTodos,
-  setWorking,
-  setCompleted,
-  addTodo,
-  moveToWorking,
-  moveToCompleted,
+  getProjectsStart,
+  getProjectsSuccess,
+  getProjectsFailure,
+  addProjectSuccess,
+  addProjectFailure,
+  updateProjectStatusSuccess,
+  updateProjectStatusFailure,
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

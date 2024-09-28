@@ -44,6 +44,9 @@ importers:
       redux:
         specifier: ^5.0.1
         version: 5.0.1
+      reselect:
+        specifier: ^5.1.1
+        version: 5.1.1
       web-vitals:
         specifier: ^2.1.4
         version: 2.1.4

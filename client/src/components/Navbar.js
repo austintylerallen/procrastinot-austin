@@ -14,27 +14,37 @@ const Navbar = () => {
   return (
     <nav className="dark-background p-4 flex justify-between items-center">
       <div className="text-white font-mono">
-        <Link to="/projects/todo" className="button todo-button mr-2">To-Do</Link>
-        <Link to="/projects/working" className="button working-button mr-2">Working</Link>
-        <Link to="/projects/completed" className="button completed-button">Completed</Link>
+        {isAuthenticated ? (
+          <>
+            <Link to="/projects/todo" className="button todo-button">
+              To-Do
+            </Link>
+            <Link to="/projects/working" className="button working-button">
+              Working
+            </Link>
+            <Link to="/projects/completed" className="button completed-button">
+              Completed
+            </Link>
+          </>
+        ) : null}
       </div>
       <div>
         {isAuthenticated ? (
           <button
             onClick={handleLogout}
-            className="button bg-red-500"
+            className="button bg-red-500 hover:bg-red-700"
           >
             Logout
           </button>
         ) : (
-          <div className="flex gap-4">
-            <Link to="/auth" className="button bg-green-500">
+          <>
+            <Link to="/auth" className="button bg-green-500 hover:bg-green-700">
               Login
             </Link>
-            <Link to="/register" className="button bg-blue-500">
+            <Link to="/register" className="button bg-blue-500 hover:bg-blue-700">
               Register
             </Link>
-          </div>
+          </>
         )}
       </div>
     </nav>

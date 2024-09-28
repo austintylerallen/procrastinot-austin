@@ -13,7 +13,10 @@ const PORT = process.env.PORT || 5006;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Frontend URL
+    credentials: true, // Enable credentials
+  }));
 
 // MongoDB connection URI
 const mongoURI = process.env.MONGODB_URI;
@@ -48,12 +51,14 @@ const sess = {
   }),
 };
 
+// Use session middleware
+app.use(session(sess));
+
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/projects', require('./routes/projectRoutes'));
 
 
-// Use session middleware
-app.use(session(sess));
+
 
 // Sample routes
 app.get('/', (req, res) => {

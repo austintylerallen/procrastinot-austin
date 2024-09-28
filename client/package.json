@@ -15,6 +15,7 @@
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "redux": "^5.0.1",
+    "reselect": "^5.1.1",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^6.6.0",
     "workbox-broadcast-update": "^6.6.0",
@@ -73,5 +74,6 @@
       "eslint --fix",
       "prettier --write"
     ]
-  }
+  },
+  "proxy": "http://localhost:5006"
 }

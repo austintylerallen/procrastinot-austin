@@ -1,70 +1,58 @@
-// routes/projectRoutes.js
+// server/routes/projectRoutes.js
 const express = require('express');
-const router = express.Router();
 const Project = require('../models/Project');
+const router = express.Router();
 
-// Create a new project
-router.post('/todo', async (req, res) => {
-  const { title, description } = req.body;
-
-  try {
-    const newProject = new Project({
-      title,
-      description,
-      auth_id: req.user._id, // assuming you have user auth in place
-      status: 'todo',
-    });
-    const savedProject = await newProject.save();
-    res.status(201).json(savedProject);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Failed to create project' });
-  }
-});
-
-// Get all projects
-router.get('/:status(todo|working|completed)', async (req, res) => {
-  try {
-    const projects = await Project.find({ status: req.params.status }).sort({ order: 'asc' });
-    res.json(projects);
-  } catch (err) {
-    console.error(`Failed to load projects: ${err}`);
-    res.status(500).json({ message: 'Failed to load projects' });
-  }
-});
-
-// Move project to another status
-router.put('/:id', async (req, res) => {
-  try {
-    const project = await Project.findById(req.params.id);
-    if (!project) {
-      return res.status(404).json({ message: 'Project not found' });
+// Update project status
+// Update project status route
+router.put('/:id/status', async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+  
+    try {
+      const project = await Project.findById(id);
+  
+      if (!project) {
+        return res.status(404).json({ message: 'Project not found' });
+      }
+  
+      project.status = status;
+      await project.save();
+  
+      res.json(project);
+    } catch (err) {
+      console.error('Error updating project status:', err.message);
+      res.status(500).send('Server error');
     }
+  });
+  
 
-    project.status = req.body.status || project.status;
-    project.order = req.body.order !== undefined ? req.body.order : project.order;
-    const updatedProject = await project.save();
-    res.json(updatedProject);
-  } catch (err) {
-    console.error(`Failed to update project: ${err}`);
-    res.status(500).json({ message: 'Failed to update project' });
-  }
-});
 
-// Delete project
-router.delete('/:id', async (req, res) => {
-  try {
-    const project = await Project.findById(req.params.id);
-    if (!project) {
-      return res.status(404).json({ message: 'Project not found' });
+router.get('/', async (req, res) => {
+    try {
+      const projects = await Project.find(); // Fetch all projects
+      res.json(projects);
+    } catch (err) {
+      res.status(500).json({ message: 'Server error' });
     }
+  });
 
-    await project.remove();
-    res.json({ message: 'Project removed' });
-  } catch (err) {
-    console.error(`Failed to delete project: ${err}`);
-    res.status(500).json({ message: 'Failed to delete project' });
-  }
-});
 
+
+  router.post('/', async (req, res) => {
+    const { title, description, status, auth_id } = req.body;
+    try {
+      const newProject = new Project({
+        title,
+        description,
+        status,
+        auth_id, // Add the auth_id (if required)
+      });
+      const savedProject = await newProject.save();
+      res.status(201).json(savedProject);
+    } catch (err) {
+      console.error('Error creating project:', err.message);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
 module.exports = router;
