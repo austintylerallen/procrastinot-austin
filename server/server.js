@@ -53,10 +53,12 @@ const sess = {
 
 // Use session middleware
 app.use(session(sess));
+app.use(express.static('public'));
+
 
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/projects', require('./routes/projectRoutes'));
-
+app.use('users', require('./routes/userRoutes'));
 
 
 

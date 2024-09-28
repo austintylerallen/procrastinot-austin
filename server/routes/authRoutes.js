@@ -40,7 +40,7 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    console.log('Attempting login with:', { email, password }); // Log the received data
+    console.log('Attempting login with:', { email, password });
   
     try {
       // Find user by email
@@ -64,12 +64,23 @@ router.post('/login', async (req, res) => {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
       console.log('Token generated:', token);
   
-      res.json({ token });
+      // Send token and user info in response
+      res.json({
+        data: { // Wrap in a data object
+          token,
+          user: {
+            _id: user._id,
+            username: user.username,
+            email: user.email
+          }
+        }
+      });
     } catch (err) {
       console.error('Login error:', err.message);
       res.status(500).send('Server error');
     }
   });
+  
   
 
 // Token Verification Route
