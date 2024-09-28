@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import PrivateRoute from './components/PrivateRoute';
 import { syncAuthState } from './redux/actions/authActions';
+import StarBackground from './components/StarBackground'; // Import StarBackground
 
 const App = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const App = () => {
 
   return (
     <Router>
+      <StarBackground /> {/* Add StarBackground to the App */}
       {isAuthenticated && <Navbar />} {/* Show Navbar only if authenticated */}
       <Routes>
         {/* Redirect authenticated users to TodoPage if they try to access login or register */}

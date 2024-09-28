@@ -1,4 +1,3 @@
-// src/pages/CompletedPage.js
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProjects, updateProjectStatus } from '../redux/actions/projectActions'; // Import actions
@@ -21,21 +20,6 @@ const CompletedPage = () => {
       <div className="container text-center">
         <h1 className="text-white text-7xl mb-12">Completed Projects</h1>
         <div className="flex flex-col items-center">
-          {/* Navigation Links */}
-          <div className="flex space-x-4 mb-8">
-            <a href="/dashboard" className="button bg-manage text-white px-8 py-4 text-xl rounded-lg shadow-md hover:bg-manage-light">
-              Dashboard
-            </a>
-            <a href="/projects/todo" className="button bg-todo text-white px-8 py-4 text-xl rounded-lg shadow-md hover:bg-todo-light">
-              To-Do
-            </a>
-            <a href="/projects/working" className="button bg-working text-white px-8 py-4 text-xl rounded-lg shadow-md hover:bg-working-light">
-              Working
-            </a>
-            <a href="/projects/completed" className="button bg-completed text-white px-8 py-4 text-xl rounded-lg shadow-md hover:bg-completed-light">
-              Completed
-            </a>
-          </div>
           {/* Project List */}
           <div className="scroll-box max-h-custom-400 overflow-y-auto p-4 rounded-lg bg-gray-800 shadow-custom">
             {projects.length > 0 ? (

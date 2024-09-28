@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProjects, addProject } from '../redux/actions/projectActions';
+import { getProjects, addProject, updateProjectStatus } from '../redux/actions/projectActions';
 import { selectTodoProjects } from '../redux/slices/projectSlice'; // Import memoized selector
 import Modal from '../components/Modal';
 
@@ -27,26 +27,16 @@ const TodoPage = () => {
     }
   };
 
+  // Function to handle moving project to a new status
+  const handleMoveToStatus = (projectId, newStatus) => {
+    dispatch(updateProjectStatus(projectId, newStatus)); // Dispatch update project status action
+  };
+
   return (
     <div className="hero bg-primary flex items-center justify-center">
       <div className="container text-center">
         <h1 className="text-white text-7xl mb-12">To-Do Projects</h1>
         <div className="flex flex-col items-center">
-          {/* Navigation Links */}
-          <div className="flex space-x-4 mb-8">
-            <a href="/dashboard" className="button bg-manage text-white px-8 py-4 text-xl rounded-lg shadow-md hover:bg-manage-light">
-              Dashboard
-            </a>
-            <a href="/projects/todo" className="button bg-todo text-white px-8 py-4 text-xl rounded-lg shadow-md hover:bg-todo-light">
-              To-Do
-            </a>
-            <a href="/projects/working" className="button bg-working text-white px-8 py-4 text-xl rounded-lg shadow-md hover:bg-working-light">
-              Working
-            </a>
-            <a href="/projects/completed" className="button bg-completed text-white px-8 py-4 text-xl rounded-lg shadow-md hover:bg-completed-light">
-              Completed
-            </a>
-          </div>
           {/* Project List */}
           <div className="scroll-box max-h-custom-400 overflow-y-auto p-4 rounded-lg bg-gray-800 shadow-custom">
             {projects.length > 0 ? (
@@ -55,10 +45,16 @@ const TodoPage = () => {
                   <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
                   <p className="text-white mb-4">{project.description}</p>
                   <div className="flex justify-between items-center">
-                    <button className="button bg-working text-white px-4 py-2 rounded-lg shadow-md hover:bg-working-light">
+                    <button
+                      onClick={() => handleMoveToStatus(project._id, 'Working')} // Move to Working
+                      className="button bg-working text-white px-4 py-2 rounded-lg shadow-md hover:bg-working-light"
+                    >
                       Move to Working
                     </button>
-                    <button className="button bg-completed text-white px-4 py-2 rounded-lg shadow-md hover:bg-completed-light">
+                    <button
+                      onClick={() => handleMoveToStatus(project._id, 'Completed')} // Move to Completed
+                      className="button bg-completed text-white px-4 py-2 rounded-lg shadow-md hover:bg-completed-light"
+                    >
                       Move to Completed
                     </button>
                   </div>
