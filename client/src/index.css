@@ -1,0 +1,74 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Global Styles */
+* {
+  font-family: "Space Mono", monospace !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+/* Custom Hero Section */
+.hero {
+  @apply bg-primary min-h-screen flex items-center justify-center;
+}
+
+/* Custom Navbar Styles */
+.dark-background {
+  @apply bg-primary p-2; /* Ensure the color is applied */
+}
+
+/* Button Styles */
+.button {
+  @apply mb-2 text-white p-5 text-lg rounded-lg; /* Default styles for buttons */
+}
+
+/* Scroll Box Styles */
+.scroll-box {
+  @apply max-h-96 overflow-y-auto p-4 rounded-lg bg-opacity-90 shadow-lg;
+  background-color: rgba(43, 46, 57, 0.9); /* Slightly transparent background */
+}
+
+/* Todo Item Styles */
+.todo-item {
+  @apply bg-gray-800 p-4 rounded-lg shadow-lg mb-4 min-h-[150px];
+}
+
+/* Timer Styles */
+.timer {
+  @apply text-white bg-manage rounded-lg p-4 my-4 shadow-lg flex items-center justify-center text-2xl;
+}
+
+/* Timer Controls */
+.timer-controls {
+  @apply flex justify-center gap-4 w-full mt-4;
+}
+
+/* Timer Control Button */
+.timer-controls .button {
+  @apply w-24 text-sm rounded-md shadow-md p-3;
+}
+
+/* Custom Progress Bar */
+.progress {
+  @apply w-full my-4 h-2;
+}
+
+/* General Button Colors */
+.todo-button {
+  @apply bg-todo; /* Color for todo button */
+}
+
+.working-button {
+  @apply bg-working; /* Color for working button */
+}
+
+.completed-button {
+  @apply bg-completed; /* Color for completed button */
+}
+
+.manage-button {
+  @apply bg-manage; /* Color for manage button */
+}
