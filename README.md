@@ -35,16 +35,23 @@ Procrastinot is a web application designed to help users manage their tasks and 
 4.  Set up your environment variables. Create a `.env` file in the root directory and add the following:
 
     make .env file:
-    ```bash 
+
+    bash
+
+    Copy code
+
     `MONGODB_URI=<your-mongodb-uri>
     JWT_SECRET=<your-jwt-secret>
     PORT=5006`
-    ```
 
 5.  Start the server:
-```bash
+
+    bash
+
+    Copy code
+
     `pnpm start`
-```
+
 6.  Open your browser and navigate to `http://localhost:3000` to access the application.
 
 **Features**
@@ -111,11 +118,10 @@ Procrastinot is a web application designed to help users manage their tasks and 
     -   Request: `{ "status": "Working" }`
     -   Response: `{ "message": "Project updated successfully." }`
 
-    Folder Structure
+Folder Structure
 ----------------
 
 ```bash
-
 
 
 `procrastinot
@@ -138,7 +144,7 @@ Contributing
 4.  Commit your changes (`git commit -m 'Add some feature'`).
 5.  Push to the branch (`git push origin feature-branch`).
 6.  Open a pull request.
-```
+
 License
 -------
 
