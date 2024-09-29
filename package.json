@@ -1,20 +1,23 @@
 {
   "name": "procrastinot-spa",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "A full-stack application for managing tasks and projects.",
+  "main": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:backend": "node server/server.js", 
-    "start:frontend": "cd client && pnpm start", 
+    "start:backend": "pnpm --prefix server start", 
+    "start:frontend": "pnpm --prefix client start", 
     "start": "concurrently \"pnpm run start:backend\" \"pnpm run start:frontend\"",
-    "build": "cd client && pnpm run build" 
+    "build": "cd client && pnpm run build",
+    "heroku-postbuild": "cd client && pnpm install && pnpm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  },
   "devDependencies": {
-    "concurrently": "^7.6.0", 
     "eslint": "^9.11.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.30.0",
