@@ -60,7 +60,8 @@ const sess = {
 app.use(session(sess));
 
 // Serve static files from the React app build (assuming it's in /client/build)
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
+
 
 // API routes
 app.use('/auth', require('./routes/authRoutes'));
