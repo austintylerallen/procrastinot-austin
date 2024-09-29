@@ -12,19 +12,16 @@ const projectSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['To-Do', 'Working', 'Completed'], // Ensure these are correct
+    enum: ['To-Do', 'Working', 'Completed'],
     default: 'To-Do',
   },
   auth_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: false, // Not required for seeding
+    required: false,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+}, { timestamps: true }); // This will automatically add createdAt and updatedAt fields
+
 
 const Project = mongoose.model('Project', projectSchema);
 module.exports = Project;
