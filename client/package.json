@@ -37,8 +37,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint 'src/**/*.{js,jsx}' --quiet",
     "lint:fix": "eslint 'src/**/*.{js,jsx}' --fix",
-    "format": "prettier --write 'src/**/*.{js,jsx,css,json}'",
-    "prepare": "husky install"
+    "format": "prettier --write 'src/**/*.{js,jsx,css,json}'"
   },
   "eslintConfig": {
     "extends": [
@@ -63,7 +62,6 @@
     "@tailwindcss/typography": "^0.5.15",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.49.0",
-    "husky": "^8.0.0",
     "lint-staged": "^13.0.4",
     "postcss": "^8.4.47",
     "prettier": "^3.0.3",
