@@ -1,48 +1,59 @@
-// server/seedProjects.js
-
+// seedProjects.js
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Project = require('./models/Project');
 
 dotenv.config(); // Load environment variables
 
-const mongoURI = process.env.MONGODB_URI;
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log('Connected to MongoDB');
+}).catch((err) => {
+  console.error('Failed to connect to MongoDB:', err);
+});
 
+// Sample projects to seed
 const projects = [
   {
-    title: 'Portfolio Website',
-    description: 'A personal portfolio website to showcase my projects, skills, and experience. Built with React, TailwindCSS, and Node.js.',
+    title: 'Build a Personal Portfolio Website',
+    description: 'Create a responsive and attractive personal portfolio website using React and Tailwind CSS.',
     status: 'To-Do',
   },
   {
-    title: 'E-commerce Platform',
-    description: 'A full-featured e-commerce platform with user authentication, product management, and order tracking. Built with the MERN stack (MongoDB, Express, React, Node.js).',
+    title: 'Develop a Task Management System',
+    description: 'Implement a task management system with features like to-do, in-progress, and completed tasks.',
     status: 'To-Do',
   },
-  // ... Add more projects as needed
+  {
+    title: 'Create a Blogging Platform',
+    description: 'Develop a full-featured blogging platform with user authentication, rich text editor, and comment section.',
+    status: 'To-Do',
+  },
+  {
+    title: 'Real-Time Chat Application',
+    description: 'Build a real-time chat application using React, Node.js, Socket.io, and MongoDB.',
+    status: 'Working',
+  },
+  {
+    title: 'E-commerce Website with Payment Gateway',
+    description: 'Create an e-commerce website with a shopping cart, product management, and integration with Stripe for payments.',
+    status: 'Completed',
+  },
 ];
 
-console.log('Connecting to MongoDB...');
+// Seed function
+const seedProjects = async () => {
+  try {
+    await Project.deleteMany(); // Clear existing data
+    await Project.insertMany(projects); // Insert sample projects
+    console.log('Sample projects have been added to the database!');
+    mongoose.connection.close(); // Close the connection after seeding
+  } catch (error) {
+    console.error('Error seeding projects:', error);
+  }
+};
 
-mongoose
-  .connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(async () => {
-    console.log('Connected to MongoDB');
-
-    // Remove existing projects to avoid duplicates
-    await Project.deleteMany({});
-    console.log('Existing projects removed.');
-
-    // Insert sample projects
-    const insertedProjects = await Project.insertMany(projects);
-    console.log('Sample projects inserted:', insertedProjects);
-
-    mongoose.disconnect();
-    console.log('Disconnected from MongoDB');
-  })
-  .catch((err) => {
-    console.error('Failed to connect to MongoDB:', err);
-  });
+seedProjects();
