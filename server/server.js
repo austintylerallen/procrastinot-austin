@@ -1,26 +1,31 @@
+// Import necessary packages
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path');
 
-dotenv.config(); // Load environment variables from .env file
+// Load environment variables from .env file
+dotenv.config();
 
+// Create an Express application
 const app = express();
 const PORT = process.env.PORT || 5007;
 
-// Middleware
+// Middleware configuration
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'http://localhost:3000', // Frontend URL
-    credentials: true, // Enable credentials
-  }));
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Frontend URL from environment variable or default
+  credentials: true, // Enable credentials
+}));
 
 // MongoDB connection URI
 const mongoURI = process.env.MONGODB_URI;
 
+// Connect to MongoDB
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -36,7 +41,7 @@ const sess = {
   cookie: {
     maxAge: 43200000, // 12 hours
     httpOnly: true,
-    secure: false, // Set to true if using HTTPS
+    secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
     sameSite: 'strict',
   },
   resave: false,
@@ -53,16 +58,21 @@ const sess = {
 
 // Use session middleware
 app.use(session(sess));
-app.use(express.static('public'));
 
+// Serve static files from the React app build (assuming it's in /client/build)
+app.use(express.static(path.join(__dirname, 'client/build')));
 
+// API routes
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/projects', require('./routes/projectRoutes'));
-app.use('users', require('./routes/userRoutes'));
+app.use('/users', require('./routes/userRoutes'));
 
+// Catch-all handler to serve the React app for any other requests
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
-
-// Sample routes
+// Sample root route
 app.get('/', (req, res) => {
   res.send('Server is running');
 });
