@@ -4,12 +4,14 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "start:backend": "node server/server.js", 
-    "start:frontend": "cd client && pnpm start", 
+    "start:backend": "node server/server.js",
+    "start:frontend": "cd client && pnpm start",
     "start": "concurrently \"pnpm run start:backend\" \"pnpm run start:frontend\"",
-    "build": "cd client && pnpm install --no-frozen-lockfile && pnpm run build", 
-    "install": "pnpm install --recursive --no-frozen-lockfile", 
-    "start-all": "pnpm install --recursive --no-frozen-lockfile && pnpm run start" 
+    "build": "cd client && pnpm install --no-frozen-lockfile && pnpm run build",
+    "install:backend": "pnpm install --prefix server",
+    "install:frontend": "cd client && pnpm install --no-frozen-lockfile",
+    "install:all": "pnpm install --no-frozen-lockfile && pnpm run install:backend && pnpm run install:frontend",
+    "start-all": "pnpm run install:all && pnpm run start"
   },
   "keywords": [],
   "author": "",
