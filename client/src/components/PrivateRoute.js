@@ -1,19 +1,17 @@
-// src/components/PrivateRoute.js
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-const PrivateRoute = ({ element: Element }) => {
+const PrivateRoute = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  
-  // Check if the user is authenticated
+
+  // If not authenticated, redirect to login page
   if (!isAuthenticated) {
-    // Redirect to login page if not authenticated
     return <Navigate to="/auth" />;
   }
 
-  // Render the requested element if authenticated
-  return <Element />;
+  // If authenticated, render the child route component
+  return <Outlet />;
 };
 
 export default PrivateRoute;

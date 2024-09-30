@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +12,7 @@ import ProfilePage from './pages/ProfilePage'; // Import ProfilePage
 import PrivateRoute from './components/PrivateRoute';
 import { syncAuthState } from './redux/actions/authActions';
 import StarBackground from './components/StarBackground'; // Import StarBackground
+import LandingPage from './pages/LandingPage'; // Import LandingPage
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,8 +24,8 @@ const App = () => {
 
   return (
     <Router>
-      {!isAuthenticated && <StarBackground />}
-      {isAuthenticated && <Navbar />}
+      {!isAuthenticated && <StarBackground />} {/* Show Star Background when not authenticated */}
+      {isAuthenticated && <Navbar />} {/* Show Navbar when authenticated */}
       <Routes>
         {isAuthenticated ? (
           <>
@@ -36,6 +36,7 @@ const App = () => {
           <>
             <Route path="/auth" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/" element={<LandingPage />} /> {/* Show LandingPage when not authenticated */}
           </>
         )}
         
