@@ -17,8 +17,24 @@ const PORT = process.env.PORT || 5007;
 // Middleware configuration
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Define allowed origins for CORS
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'http://localhost:3000',  // Frontend URL from environment variable or default
+  'https://procrastinot-austin.onrender.com'  // Add the deployed frontend URL
+];
+
+// CORS middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Frontend URL from environment variable or default
+  origin: function (origin, callback) {
+    // Allow requests with no origin, like mobile apps or curl requests
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   credentials: true, // Enable credentials
 }));
 
@@ -61,7 +77,6 @@ app.use(session(sess));
 
 // Serve static files from the React app build (assuming it's in /client/build)
 app.use(express.static(path.join(__dirname, '../client/build')));
-
 
 // API routes
 app.use('/auth', require('./routes/authRoutes'));
