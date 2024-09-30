@@ -27,31 +27,32 @@ const App = () => {
       {!isAuthenticated && <StarBackground />} {/* Show Star Background when not authenticated */}
       {isAuthenticated && <Navbar />} {/* Show Navbar when authenticated */}
       <Routes>
-        {isAuthenticated ? (
+        {/* Public Routes */}
+        {!isAuthenticated ? (
+          <>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </>
+        ) : (
           <>
             <Route path="/auth" element={<Navigate to="/projects/todo" />} />
             <Route path="/register" element={<Navigate to="/projects/todo" />} />
           </>
-        ) : (
-          <>
-            <Route path="/auth" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/" element={<LandingPage />} /> {/* Show LandingPage when not authenticated */}
-          </>
         )}
-        
-        <Route path="/" element={<Navigate to={isAuthenticated ? "/projects/todo" : "/auth"} />} />
-        
+
         {/* Private Routes */}
-        <Route path="/projects/todo" element={<PrivateRoute element={TodoPage} />} />
-        <Route path="/projects/working" element={<PrivateRoute element={WorkingPage} />} />
-        <Route path="/projects/completed" element={<PrivateRoute element={CompletedPage} />} />
-        <Route path="/profile" element={<PrivateRoute element={ProfilePage} />} /> {/* Add Profile Route */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/projects/todo" element={<TodoPage />} />
+          <Route path="/projects/working" element={<WorkingPage />} />
+          <Route path="/projects/completed" element={<CompletedPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Route>
 
         {/* Public About Us Route */}
         <Route path="/about" element={<AboutPage />} />
 
-        {/* Fallback Route */}
+        {/* Catch-all Redirect */}
         <Route path="*" element={<Navigate to={isAuthenticated ? "/projects/todo" : "/auth"} />} />
       </Routes>
     </Router>
