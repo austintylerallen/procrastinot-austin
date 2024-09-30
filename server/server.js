@@ -85,8 +85,9 @@ app.use('/users', require('./routes/userRoutes'));
 
 // Catch-all handler to serve the React app for any other requests
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
+
 
 // Sample root route
 app.get('/', (req, res) => {
