@@ -1,4 +1,3 @@
-// server/models/Project.js
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
@@ -15,13 +14,12 @@ const projectSchema = new mongoose.Schema({
     enum: ['To-Do', 'Working', 'Completed'],
     default: 'To-Do',
   },
-  auth_id: {
+  userId: { // Renamed from auth_id to userId for clarity
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: false,
+    required: true, // Make it required
   },
-}, { timestamps: true }); // This will automatically add createdAt and updatedAt fields
-
+}, { timestamps: true });
 
 const Project = mongoose.model('Project', projectSchema);
 module.exports = Project;
