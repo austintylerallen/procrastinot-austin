@@ -11,6 +11,7 @@ const RegisterPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // State for error messages
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -20,7 +21,11 @@ const RegisterPage = () => {
       // Dispatch the registerUser action and pass navigate for redirection
       await dispatch(registerUser(userData, navigate));
     } catch (error) {
-      console.error('Registration failed:', error.message);
+      // Safely check if error.response exists before accessing data
+      const errorResponse = error.response ? error.response.data : null;
+      const errorMsg = errorResponse?.error || error.message || 'Registration failed. Please try again.';
+      console.error('Registration failed:', errorMsg);
+      setErrorMessage(errorMsg);
     }
   };
 
@@ -28,6 +33,11 @@ const RegisterPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-primary text-white font-mono">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-3xl mb-6 text-center">Register</h2>
+        {errorMessage && (
+          <div className="mb-4 text-red-500 text-center">
+            {errorMessage}
+          </div>
+        )}
         <form onSubmit={handleRegister} className="flex flex-col gap-4">
           <input
             type="text"

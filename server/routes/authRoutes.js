@@ -7,32 +7,39 @@ const router = express.Router();
 // Register Route
 // Registration Route in authRoutes.js
 
+// Backend (Node.js/Express) registration route example
 router.post('/register', async (req, res) => {
-    const { username, email, password } = req.body;
-  
-    console.log('Received registration data:', { username, email, password }); // Log the received data
-  
-    try {
-      // Check if user exists
-      let user = await User.findOne({ email });
-      if (user) {
-        return res.status(400).json({ message: 'User already exists' });
-      }
-  
-      // Create new user with raw password
-      user = new User({ username, email, password });
-      await user.save();
-      console.log('User saved successfully:', user); // Log the saved user
-  
-      // Create token
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  
-      res.json({ token });
-    } catch (err) {
-      console.error('Error during registration:', err.message);
-      res.status(500).send('Server error');
+  try {
+    // Validate user input (e.g., check if email already exists, password validation)
+    const { email, username, password } = req.body;
+
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already in use.' });
     }
-  });
+
+    // Create the user in the database
+    const newUser = new User({ email, username, password });
+    await newUser.save();
+
+    // Generate a JWT token for the user
+    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Return token and user details to the client
+    res.status(201).json({
+      token,
+      user: {
+        _id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+      },
+    });
+  } catch (error) {
+    console.error('Server error during registration:', error);
+    res.status(500).json({ message: 'Registration failed. Server error.' });
+  }
+});
   
 
 // Login Route
