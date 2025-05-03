@@ -1,161 +1,286 @@
-**Project Title and Description**
+# Procrastinot
 
-Procrastinot is a web application designed to help users manage their tasks and projects efficiently. It offers features like creating to-do lists, tracking the time spent on tasks, and moving projects between different statuses. The app aims to make time and task management fun and easy with a user-friendly interface and design.
+**Procrastinot** is a web application designed to help users manage their tasks and projects efficiently. It features to-do lists, time tracking, and dynamic project statuses, all wrapped in an engaging and responsive user interface. Procrastinot aims to make time and task management fun, simple, and intuitive.
 
-**Table of Contents**
+---
 
--   Getting Started
--   Features
--   Usage
--   API Endpoints
--   Folder Structure
--   Contributing
--   License
--   Acknowledgements
+## 📑 Table of Contents
 
-**Getting Started**
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Features](#features)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+  - [Authentication](#authentication)
+  - [Projects](#projects)
+- [Folder Structure](#folder-structure)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
-**Prerequisites**
+---
 
--   Node.js v14.x or higher
--   MongoDB
--   npm or pnpm (recommended)
--   Postman or Insomnia for API testing (optional)
+## 🚀 Getting Started
 
-**Installation**
+### Prerequisites
 
-1.  Clone the repository:\
-    `git clone https://github.com/yourusername/procrastinot.git`
+Before installing, make sure you have the following tools:
 
-2.  Navigate to the project directory:\
-    `cd procrastinot`
+- Node.js v14.x or higher
+- MongoDB
+- `npm` or `pnpm` (recommended)
+- Postman or Insomnia (optional, for API testing)
 
-3.  Install dependencies:\
-    `pnpm install`
+### Installation
 
-4.  Set up your environment variables. Create a `.env` file in the root directory and add the following:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/procrastinot.git
+   ```
 
-    make .env file:
+2. **Navigate to the project directory:**
+   ```bash
+   cd procrastinot
+   ```
 
-    bash
+3. **Install dependencies:**
+   ```bash
+   pnpm install
+   ```
 
-    Copy code
+4. **Set up environment variables:**  
+   Create a `.env` file in the root directory with the following content:
+   ```env
+   MONGODB_URI=<your-mongodb-uri>
+   JWT_SECRET=<your-jwt-secret>
+   PORT=5006
+   ```
 
-    `MONGODB_URI=<your-mongodb-uri>
-    JWT_SECRET=<your-jwt-secret>
-    PORT=5006`
+5. **Start the development server:**
+   ```bash
+   pnpm start
+   ```
 
-5.  Start the server:
+6. **Access the app:**  
+   Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 
-    bash
+---
 
-    Copy code
+## ✨ Features
 
-    `pnpm start`
+- **User Authentication:** Register, login, and manage user profiles securely.
+- **Task Management:** Create, update, and delete tasks with dynamic statuses (To-Do, Working, Completed).
+- **Time Tracking:** Measure time spent on each task and track progress.
+- **Responsive UI:** Works seamlessly on desktop and mobile devices.
+- **Animated Starry Background:** Adds an engaging visual flair to the user experience.
 
-6.  Open your browser and navigate to `http://localhost:3000` to access the application.
+---
 
-**Features**
+## 🧭 Usage
 
--   **User Authentication:** Register, login, and manage user profiles.
--   **Task Management:** Create, update, and delete tasks with different statuses (To-Do, Working, Completed).
--   **Time Tracking:** Track time spent on each task and move tasks between statuses.
--   **Responsive Design:** Optimized for both desktop and mobile use.
--   **Starry Background:** Animated starry background for an engaging user experience.
+### Login
 
-**Usage**
+- Go to the login page.
+- Enter your email and password.
+- Click **Login** to access your dashboard.
 
-**Login**
+### Manage Projects
 
-1.  Navigate to the login page.
-2.  Enter your email and password.
-3.  Click the `Login` button to access your dashboard.
+- Navigate to the **To-Do** page to view tasks.
+- Drag or move tasks to **Working** or **Completed** statuses.
+- Use the built-in timer to track your productivity.
 
-**Manage Projects**
+### Delete Profile
 
-1.  Go to the `To-Do` page to view pending tasks.
-2.  Move tasks to `Working` or `Completed` as you progress through them.
-3.  Use the timer feature to track how long you spend on each task.
+- Visit the **Profile** page.
+- Click **Delete Profile** to permanently remove your account (confirmation required).
 
-**Delete Profile**
+---
 
-1.  Navigate to the `Profile` page.
-2.  Click the `Delete Profile` button to permanently remove your profile. A confirmation prompt will appear before deletion.
+## 📡 API Endpoints
 
-**API Endpoints**
+### Authentication
 
-**Authentication**
+#### Register
 
--   **Register**
+```http
+POST /auth/register
+```
 
-    -   `POST /auth/register`
-    -   Request: `{ "username": "test", "email": "test@example.com", "password": "yourpassword" }`
-    -   Response: `{ "token": "your_jwt_token" }`
--   **Login**
+**Request:**
+```json
+{
+  "username": "test",
+  "email": "test@example.com",
+  "password": "yourpassword"
+}
+```
 
-    -   `POST /auth/login`
-    -   Request: `{ "email": "test@example.com", "password": "yourpassword" }`
-    -   Response: `{ "token": "your_jwt_token", "user": { "_id": "userid", "username": "test", "email": "test@example.com" } }`
--   **Delete User**
+**Response:**
+```json
+{
+  "token": "your_jwt_token"
+}
+```
 
-    -   `DELETE /users/:id`
-    -   Request: `Header: { "x-auth-token": "your_jwt_token" }`
-    -   Response: `{ "message": "User deleted successfully." }`
+#### Login
 
-**Projects**
+```http
+POST /auth/login
+```
 
--   **Get Projects**
+**Request:**
+```json
+{
+  "email": "test@example.com",
+  "password": "yourpassword"
+}
+```
 
-    -   `GET /projects`
-    -   Response: `[ { "_id": "projectid", "title": "Project Title", "status": "To-Do" } ]`
--   **Add Project**
+**Response:**
+```json
+{
+  "token": "your_jwt_token",
+  "user": {
+    "_id": "userid",
+    "username": "test",
+    "email": "test@example.com"
+  }
+}
+```
 
-    -   `POST /projects`
-    -   Request: `{ "title": "New Project", "description": "Project Description" }`
-    -   Response: `{ "_id": "projectid", "title": "New Project", "description": "Project Description" }`
--   **Update Project**
+#### Delete User
 
-    -   `PUT /projects/:id`
-    -   Request: `{ "status": "Working" }`
-    -   Response: `{ "message": "Project updated successfully." }`
+```http
+DELETE /users/:id
+```
 
-Folder Structure
-----------------
+**Headers:**
+```http
+x-auth-token: your_jwt_token
+```
 
-```bash
+**Response:**
+```json
+{
+  "message": "User deleted successfully."
+}
+```
 
+---
 
-`procrastinot
+### Projects
+
+#### Get All Projects
+
+```http
+GET /projects
+```
+
+**Response:**
+```json
+[
+  {
+    "_id": "projectid",
+    "title": "Project Title",
+    "status": "To-Do"
+  }
+]
+```
+
+#### Add a New Project
+
+```http
+POST /projects
+```
+
+**Request:**
+```json
+{
+  "title": "New Project",
+  "description": "Project Description"
+}
+```
+
+**Response:**
+```json
+{
+  "_id": "projectid",
+  "title": "New Project",
+  "description": "Project Description"
+}
+```
+
+#### Update a Project
+
+```http
+PUT /projects/:id
+```
+
+**Request:**
+```json
+{
+  "status": "Working"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Project updated successfully."
+}
+```
+
+---
+
+## 📁 Folder Structure
+
+```
+procrastinot
 ├── client               # React frontend
 │   ├── public           # Static files
-│   ├── src              # React components, pages, redux state
-│   └── index.js         # Entry point for React
+│   ├── src              # Components, pages, redux state
+│   └── index.js         # React entry point
 ├── server               # Node.js backend
 │   ├── models           # Mongoose schemas
-│   ├── routes           # API routes
-│   └── server.js        # Entry point for backend
-└── .env                 # Environment variables`
+│   ├── routes           # Express routes
+│   └── server.js        # Backend entry point
+└── .env                 # Environment variables
 ```
-Contributing
-------------
 
-1.  Fork the repository.
-2.  Create a new branch (`git checkout -b feature-branch`).
-3.  Make your changes.
-4.  Commit your changes (`git commit -m 'Add some feature'`).
-5.  Push to the branch (`git push origin feature-branch`).
-6.  Open a pull request.
+---
 
-License
--------
+## 🤝 Contributing
 
-This project is licensed under the MIT License - see the <LICENSE> file for details.
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature-branch
+   ```
+3. Make your changes.
+4. Commit the changes:
+   ```bash
+   git commit -m 'Add some feature'
+   ```
+5. Push to your fork:
+   ```bash
+   git push origin feature-branch
+   ```
+6. Open a pull request.
 
-Acknowledgements
-----------------
+---
 
--   [React](https://reactjs.org/)
--   [Node.js](https://nodejs.org/)
--   [Tailwind CSS](https://tailwindcss.com/)
--   [MongoDB](https://www.mongodb.com/)
--   [Express](https://expressjs.com/)
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 🙏 Acknowledgements
+
+- [React](https://reactjs.org/)
+- [Node.js](https://nodejs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Express](https://expressjs.com/)
